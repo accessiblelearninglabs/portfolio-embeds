@@ -1,0 +1,148 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { font-family: 'Asap', sans-serif; padding: 1.5rem 0; user-select: none; }
+.label-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+.side-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8aa4ae; }
+.slider-outer { position: relative; width: 100%; height: 320px; border-radius: 12px; overflow: hidden; cursor: ew-resize; touch-action: pan-y; }
+.panel { position: absolute; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem 1.5rem; overflow: hidden; }
+.panel-after { left: 0; width: 100%; background: #f0f4f5; }
+.panel-before { right: 0; background: #303e44; }
+.panel-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.panel-after .panel-tag { color: #475f6a; }
+.panel-before .panel-tag { color: #9fb8c2; }
+.panel-heading { font-size: 16px; font-weight: 600; line-height: 1.25; }
+.panel-after .panel-heading { color: #303e44; }
+.panel-before .panel-heading { color: #ffffff; }
+.people-row { display: flex; align-items: center; justify-content: center; flex: 1; margin: 0.5rem 0; gap: 0; }
+.person { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 60px; }
+.person-label { font-size: 11px; font-weight: 500; }
+.panel-after .person-label { color: #475f6a; }
+.panel-before .person-label { color: #9fb8c2; }
+.connector { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 0 6px; }
+.conn-line { width: 100%; height: 2px; }
+.panel-after .conn-line { background: #475f6a; }
+.panel-before .conn-line { background: #4e6068; }
+.panel-before .conn-line.barrier { background: repeating-linear-gradient(90deg, #4e6068 0 7px, transparent 7px 13px); }
+.tags-col { display: flex; flex-direction: column; gap: 3px; align-items: center; }
+.tag-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+.panel-after .tag-pill { background: #d0e4ea; color: #303e44; }
+.panel-before .tag-pill { background: #3d5059; color: #c8dde4; }
+.caption { font-size: 12px; font-style: italic; text-align: center; }
+.panel-after .caption { color: #6b8a94; }
+.panel-before .caption { color: #7fa0aa; }
+.divider { position: absolute; top: 0; width: 3px; background: #ffffff; height: 100%; transform: translateX(-50%); z-index: 10; pointer-events: none; }
+.handle { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 38px; height: 38px; border-radius: 50%; background: #ffffff; border: 2.5px solid #475f6a; z-index: 11; pointer-events: none; display: flex; align-items: center; justify-content: center; gap: 2px; }
+.hint { text-align: center; font-size: 12px; color: #8aa4ae; margin-top: 0.75rem; font-family: 'Asap', sans-serif; }
+</style>
+
+<div class="wrap">
+  <div class="label-row">
+    <span class="side-label">After: care-based</span>
+    <span class="side-label">Before: litigation</span>
+  </div>
+
+  <div class="slider-outer" id="slider">
+
+    <div class="panel panel-after">
+      <div>
+        <div class="panel-tag">Care-based model</div>
+        <div class="panel-heading">Employee &amp; client oriented<br>toward the same goal</div>
+      </div>
+      <div class="people-row">
+        <div class="person">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" aria-hidden="true">
+            <circle cx="20" cy="13" r="9" fill="#475f6a"/>
+            <rect x="6" y="26" width="28" height="20" rx="8" fill="#475f6a"/>
+          </svg>
+          <div class="person-label">Employee</div>
+        </div>
+        <div class="connector">
+          <div class="conn-line"></div>
+          <div class="tags-col">
+            <span class="tag-pill">Recovery</span>
+            <span class="tag-pill">Access to resources</span>
+            <span class="tag-pill">Support</span>
+          </div>
+          <div class="conn-line"></div>
+        </div>
+        <div class="person">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" aria-hidden="true">
+            <circle cx="20" cy="13" r="9" fill="#475f6a"/>
+            <rect x="6" y="26" width="28" height="20" rx="8" fill="#475f6a"/>
+          </svg>
+          <div class="person-label">Client</div>
+        </div>
+      </div>
+      <div class="caption">Connected through a shared goal</div>
+    </div>
+
+    <div class="panel panel-before" id="panelBefore" style="width:50%;">
+      <div>
+        <div class="panel-tag">Litigation-based model</div>
+        <div class="panel-heading">Employee &amp; client on opposite<br>sides of the same system</div>
+      </div>
+      <div class="people-row">
+        <div class="person">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" aria-hidden="true">
+            <circle cx="20" cy="13" r="9" fill="#7fa0aa"/>
+            <rect x="6" y="26" width="28" height="20" rx="8" fill="#7fa0aa"/>
+          </svg>
+          <div class="person-label">Employee</div>
+        </div>
+        <div class="connector">
+          <div class="conn-line barrier"></div>
+          <div class="tags-col">
+            <span class="tag-pill">Process</span>
+            <span class="tag-pill">Fault determination</span>
+            <span class="tag-pill">Legal outcome</span>
+          </div>
+          <div class="conn-line barrier"></div>
+        </div>
+        <div class="person">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" aria-hidden="true">
+            <circle cx="20" cy="13" r="9" fill="#7fa0aa"/>
+            <rect x="6" y="26" width="28" height="20" rx="8" fill="#7fa0aa"/>
+          </svg>
+          <div class="person-label">Client</div>
+        </div>
+      </div>
+      <div class="caption">Separated by adversarial process</div>
+    </div>
+
+    <div class="divider" id="divider" style="left:50%;"></div>
+    <div class="handle" id="handle" style="left:50%;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M5 4L1 8L5 12M11 4L15 8L11 12" stroke="#475f6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <p class="hint">← drag to compare →</p>
+</div>
+
+<script>
+const slider = document.getElementById('slider');
+const panelBefore = document.getElementById('panelBefore');
+const divider = document.getElementById('divider');
+const handle = document.getElementById('handle');
+let dragging = false;
+
+function setPos(x) {
+  const r = slider.getBoundingClientRect();
+  const pct = Math.min(Math.max((x - r.left) / r.width, 0.08), 0.92);
+  const v = (pct * 100).toFixed(1) + '%';
+  divider.style.left = v;
+  handle.style.left = v;
+  panelBefore.style.width = (100 - pct * 100).toFixed(1) + '%';
+}
+
+slider.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); });
+window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+window.addEventListener('mouseup', () => { dragging = false; });
+slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+window.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+window.addEventListener('touchend', () => { dragging = false; });
+</script>
