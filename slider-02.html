@@ -1,0 +1,290 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+  .cs02-wrap {
+    font-family: 'Asap', sans-serif;
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    user-select: none;
+  }
+
+  .cs02-stage {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid #dce5e9;
+  }
+
+  .cs02-panel {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 28px 36px;
+    box-sizing: border-box;
+  }
+
+  .cs02-before { background: #f5f7f8; }
+  .cs02-after  { background: #e8f0f3; clip-path: inset(0 50% 0 0); transition: clip-path 0.05s linear; }
+
+  .cs02-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+  }
+  .cs02-before .cs02-eyebrow { color: #6b8a94; }
+  .cs02-after  .cs02-eyebrow { color: #475f6a; }
+
+  .cs02-diagram {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .cs02-node {
+    flex: 1;
+    border-radius: 7px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .cs02-node-label {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .cs02-node-sub {
+    font-size: 10px;
+    font-weight: 400;
+    opacity: 0.75;
+    margin: 3px 0 0;
+    line-height: 1.3;
+  }
+
+  .cs02-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .cs02-line {
+    width: 32px;
+    height: 1.5px;
+  }
+
+  .cs02-arrow {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .cs02-caption {
+    font-size: 11px;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .cs02-before .cs02-caption { color: #6b8a94; }
+  .cs02-after  .cs02-caption { color: #475f6a; }
+
+  .cs02-after-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .cs02-level {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+  .cs02-level-num {
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;
+    text-align: right;
+    color: #475f6a;
+    opacity: 0.5;
+  }
+  .cs02-level-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: #475f6a;
+    opacity: 0.18;
+    flex-shrink: 0;
+  }
+  .cs02-level-text {
+    font-size: 10px;
+    font-weight: 600;
+    color: #303e44;
+  }
+
+  .cs02-divider {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: #475f6a;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    z-index: 10;
+  }
+
+  .cs02-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #475f6a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ew-resize;
+    z-index: 11;
+  }
+
+  .cs02-handle-icon {
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .cs02-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 0 4px;
+  }
+
+  .cs02-label-before,
+  .cs02-label-after {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .cs02-label-before { color: #6b8a94; }
+  .cs02-label-after  { color: #475f6a; }
+
+  .cs02-hint {
+    text-align: center;
+    font-size: 11px;
+    color: #6b8a94;
+    margin-top: 6px;
+    font-style: italic;
+  }
+</style>
+
+<h2 class="sr-only">Before and after diagram: how a learning evaluation framework transformed unmeasured training into a structured nine-level system across 600 employees.</h2>
+
+<div class="cs02-wrap">
+  <div class="cs02-stage" id="stage">
+
+    <div class="cs02-panel cs02-before">
+      <p class="cs02-eyebrow">Before</p>
+      <div class="cs02-diagram">
+        <div class="cs02-node" style="background:#dce5e9;">
+          <p class="cs02-node-label" style="color:#303e44;">Training delivered</p>
+          <p class="cs02-node-sub" style="color:#6b8a94;">sessions run, attendance logged</p>
+        </div>
+        <div class="cs02-connector">
+          <div class="cs02-line" style="background: repeating-linear-gradient(90deg,#6b8a94 0,#6b8a94 4px,transparent 4px,transparent 8px);"></div>
+          <span class="cs02-arrow" style="color:#6b8a94;">✕</span>
+        </div>
+        <div class="cs02-node" style="background:#dce5e9; opacity:0.5;">
+          <p class="cs02-node-label" style="color:#303e44;">Impact unknown</p>
+          <p class="cs02-node-sub" style="color:#6b8a94;">no shared language for success</p>
+        </div>
+      </div>
+      <p class="cs02-caption">Investment unmeasured — learning delivered, effectiveness undemonstrable</p>
+    </div>
+
+    <div class="cs02-panel cs02-after" id="afterPanel">
+      <p class="cs02-eyebrow">After</p>
+      <div class="cs02-after-stack" id="levels">
+        <div class="cs02-level" style="background:#cfe0e8;">
+          <span class="cs02-level-num">1–3</span>
+          <div class="cs02-level-bar" style="width:38px;opacity:0.35;"></div>
+          <span class="cs02-level-text">Access · perception · knowledge</span>
+        </div>
+        <div class="cs02-level" style="background:#b8d0da;">
+          <span class="cs02-level-num">4–5</span>
+          <div class="cs02-level-bar" style="width:54px;opacity:0.45;"></div>
+          <span class="cs02-level-text">Decision-making · task competence</span>
+        </div>
+        <div class="cs02-level" style="background:#9dbfcd;">
+          <span class="cs02-level-num">6–7</span>
+          <div class="cs02-level-bar" style="width:68px;opacity:0.55;"></div>
+          <span class="cs02-level-text">Individual · organisational performance</span>
+        </div>
+        <div class="cs02-level" style="background:#7babbe;">
+          <span class="cs02-level-num">8–9</span>
+          <div class="cs02-level-bar" style="width:80px;opacity:0.7;"></div>
+          <span class="cs02-level-text">Societal impact · success cases</span>
+        </div>
+      </div>
+      <p class="cs02-caption" style="margin-top:12px;">Investment measurable — 600 employees, 65+ learning paths, regulatory evidence active</p>
+    </div>
+
+    <div class="cs02-divider" id="divider">
+      <div class="cs02-handle">
+        <span class="cs02-handle-icon" aria-hidden="true">◂ ▸</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cs02-labels">
+    <span class="cs02-label-before">Before</span>
+    <span class="cs02-label-after">After</span>
+  </div>
+  <p class="cs02-hint">← drag to compare →</p>
+</div>
+
+<script>
+const stage    = document.getElementById('stage');
+const divider  = document.getElementById('divider');
+const after    = document.getElementById('afterPanel');
+
+let dragging = false;
+
+function setPos(x) {
+  const rect  = stage.getBoundingClientRect();
+  const pct   = Math.min(Math.max((x - rect.left) / rect.width, 0.05), 0.95);
+  const pctPc = (pct * 100).toFixed(1);
+  divider.style.left = pctPc + '%';
+  after.style.clipPath = `inset(0 ${(100 - pct * 100).toFixed(1)}% 0 0)`;
+}
+
+divider.addEventListener('mousedown', e => { dragging = true; e.preventDefault(); });
+window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+window.addEventListener('mouseup',   () => { dragging = false; });
+
+divider.addEventListener('touchstart', e => { dragging = true; e.preventDefault(); }, {passive:false});
+window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, {passive:true});
+window.addEventListener('touchend',   () => { dragging = false; });
+
+stage.addEventListener('click', e => {
+  if (!dragging) setPos(e.clientX);
+});
+</script>
