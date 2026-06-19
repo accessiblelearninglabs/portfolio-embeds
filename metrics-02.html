@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study 02 — Metrics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    font-family: 'Asap', sans-serif;
+  }
+
+  .metrics {
+    display: flex;
+    width: 100%;
+    border: 1px solid #dce5e9;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .metric {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 20px 32px;
+    background: #f5f7f8;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .metric + .metric {
+    border-left: 1px solid #dce5e9;
+  }
+
+  .metric-number {
+    font-size: 48px;
+    font-weight: 600;
+    color: #475f6a;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    height: 58px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 2px;
+  }
+
+  .metric-label {
+    font-size: 13px;
+    font-weight: 400;
+    color: #6b8a94;
+    line-height: 1.5;
+    max-width: 180px;
+  }
+
+  @media (max-width: 540px) {
+    .metrics { flex-direction: column; }
+    .metric + .metric { border-left: none; border-top: 1px solid #dce5e9; }
+    .metric-number { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="metrics" role="region" aria-label="Key outcomes">
+
+  <div class="metric">
+    <div class="metric-number" id="m1" aria-label="600">0</div>
+    <div class="metric-label">employees whose training is now evaluated for effectiveness</div>
+  </div>
+
+  <div class="metric">
+    <div class="metric-number" id="m2" aria-label="65+">0</div>
+    <div class="metric-label">learning paths evaluated for effectiveness each year — ongoing</div>
+  </div>
+
+  <div class="metric">
+    <div class="metric-number" id="m3" aria-label="9-level">—</div>
+    <div class="metric-label">framework — the institution's first — presented to Canada's federal regulator</div>
+  </div>
+
+</div>
+
+<script>
+  function easeOut(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function countUp(el, target, suffix, duration, startDelay) {
+    setTimeout(function() {
+      var start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var value = Math.round(easeOut(progress) * target);
+        el.textContent = value + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target + suffix;
+      }
+      requestAnimationFrame(step);
+    }, startDelay);
+  }
+
+  function revealText(el, text, duration, startDelay) {
+    setTimeout(function() {
+      var chars = text.split('');
+      var i = 0;
+      var interval = duration / chars.length;
+      el.textContent = '';
+      var t = setInterval(function() {
+        el.textContent += chars[i];
+        i++;
+        if (i >= chars.length) clearInterval(t);
+      }, interval);
+    }, startDelay);
+  }
+
+  var animated = false;
+
+  function runAnimations() {
+    if (animated) return;
+    animated = true;
+    countUp(document.getElementById('m1'), 600, '', 1400, 0);
+    countUp(document.getElementById('m2'), 65,  '+', 1200, 200);
+    revealText(document.getElementById('m3'), '9-level', 600, 400);
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) runAnimations();
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(document.querySelector('.metrics'));
+</script>
+
+</body>
+</html>
