@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study Metrics</title>
+<link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: transparent;
+    font-family: 'Asap', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid #d0dde2;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f5f7f8;
+  }
+
+  .metric {
+    padding: 2rem 1.25rem 1.75rem;
+    text-align: center;
+    position: relative;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .metric.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .metric:nth-child(2) { transition-delay: 0.12s; }
+  .metric:nth-child(3) { transition-delay: 0.24s; }
+
+  .metric + .metric {
+    border-left: 1px solid #d0dde2;
+  }
+
+  .metric-number {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 600;
+    color: #475f6a;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metric-label {
+    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+    font-weight: 400;
+    color: #6b8a94;
+    line-height: 1.4;
+    max-width: 13ch;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 480px) {
+    .metrics {
+      grid-template-columns: 1fr;
+    }
+    .metric + .metric {
+      border-left: none;
+      border-top: 1px solid #d0dde2;
+    }
+    .metric { padding: 1.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="metrics" role="list" aria-label="Key project metrics">
+
+  <div class="metric" role="listitem">
+    <div class="metric-number" data-target="5000" data-format="comma">0</div>
+    <div class="metric-label">employees trained province-wide</div>
+  </div>
+
+  <div class="metric" role="listitem">
+    <div class="metric-number" data-target="3.3" data-format="million">0</div>
+    <div class="metric-label">clients directly affected by the transition</div>
+  </div>
+
+  <div class="metric" role="listitem">
+    <div class="metric-number" data-target="1500" data-format="comma">0</div>
+    <div class="metric-label">hours of facilitated learning in year one</div>
+  </div>
+
+</div>
+
+<script>
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  function formatValue(val, format) {
+    if (format === 'comma') {
+      return Math.round(val).toLocaleString('en-CA');
+    }
+    if (format === 'million') {
+      return val.toFixed(1) + 'M';
+    }
+    return Math.round(val);
+  }
+
+  function countUp(el, target, format, delay) {
+    const duration = 1400;
+    let start = null;
+
+    setTimeout(() => {
+      function step(ts) {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const eased = easeOutExpo(progress);
+        el.textContent = formatValue(eased * target, format);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = formatValue(target, format);
+      }
+      requestAnimationFrame(step);
+    }, delay);
+  }
+
+  // Intersection observer — trigger when metrics enter viewport
+  const metrics = document.querySelectorAll('.metric');
+  const numbers = document.querySelectorAll('.metric-number');
+  let animated = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+        metrics.forEach(m => m.classList.add('visible'));
+        numbers.forEach((el, i) => {
+          const target = parseFloat(el.dataset.target);
+          const format = el.dataset.format;
+          countUp(el, target, format, i * 120);
+        });
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(document.querySelector('.metrics'));
+</script>
+</body>
+</html>
