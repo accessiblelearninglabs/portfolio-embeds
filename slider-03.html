@@ -1,0 +1,290 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: 'Asap', sans-serif; background: transparent; }
+
+.outer { padding: 0.6rem 0.75rem 0.5rem; }
+
+.col-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8aa4ae;
+  margin-bottom: 6px;
+}
+
+.slider-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: ew-resize;
+}
+
+/* ── Base: BEFORE (dark) ── */
+.before-panel {
+  width: 100%;
+  background: #303e44;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* ── Overlay: AFTER (light) ── */
+.after-panel {
+  position: absolute;
+  inset: 0;
+  background: #f5f7f8;
+  clip-path: inset(0 50% 0 0);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* shared row */
+.row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.before-panel .row { background: #303e44; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.after-panel  .row { background: #f5f7f8; border-bottom: 1px solid #d0dde2; }
+.before-panel .row:last-child,
+.after-panel  .row:last-child { border-bottom: none; }
+
+/* who cell */
+.who {
+  flex: 0 0 38%;
+  padding: 1.2rem 1rem 1.2rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.after-panel .who { border-right: 1px solid #d0dde2; }
+
+.who-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.before-panel .who-label { color: #6b8a94; }
+.after-panel  .who-label { color: #6b8a94; }
+
+.who-name {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.before-panel .who-name { color: #c8dde4; }
+.after-panel  .who-name { color: #303e44; }
+
+/* status cell */
+.status {
+  flex: 1;
+  padding: 1.2rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.status-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 9px;
+  white-space: nowrap;
+}
+.before-panel .status-tag { background: #3a5058; color: #7fa0aa; }
+.after-panel  .status-tag { background: #d0dde2; color: #475f6a; }
+
+.status-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-item {
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+.before-panel .status-item { color: #5a7a85; }
+.after-panel  .status-item { color: #475f6a; }
+
+/* divider + handle */
+.divider {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 2px; height: 100%;
+  background: #ffffff;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+}
+.handle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #475f6a;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  z-index: 11;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+}
+
+.hint {
+  text-align: center;
+  font-size: 10.5px;
+  color: #8aa4ae;
+  margin-top: 8px;
+}
+</style>
+
+<div class="outer">
+  <div class="col-labels">
+    <span>← Before</span>
+    <span>After →</span>
+  </div>
+
+  <div class="slider-wrap" id="slider">
+
+    <!-- BEFORE -->
+    <div class="before-panel">
+      <div class="row">
+        <div class="who">
+          <div class="who-label">Campus employers</div>
+          <div class="who-name">900+</div>
+        </div>
+        <div class="status">
+          <span class="status-tag">No shared standard</span>
+          <div class="status-items">
+            <div class="status-item">Inconsistent onboarding</div>
+            <div class="status-item">No equity guidance</div>
+            <div class="status-item">Variable student support</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="who">
+          <div class="who-label">Learning institution</div>
+          <div class="who-name">Public-facing</div>
+        </div>
+        <div class="status">
+          <span class="status-tag">No shared processes</span>
+          <div class="status-items">
+            <div class="status-item">No wellness infrastructure</div>
+            <div class="status-item">No equity framework</div>
+            <div class="status-item">Complex needs unaddressed</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="who">
+          <div class="who-label">Student employees</div>
+          <div class="who-name">3,000+</div>
+        </div>
+        <div class="status">
+          <span class="status-tag">Unsupported</span>
+          <div class="status-items">
+            <div class="status-item">HPSM students placed, not supported</div>
+            <div class="status-item">No equity evaluation</div>
+            <div class="status-item">$6M+ grants, no equity lens</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AFTER -->
+    <div class="after-panel" id="after-panel">
+      <div class="row">
+        <div class="who">
+          <div class="who-label">Campus employers</div>
+          <div class="who-name">900+</div>
+        </div>
+        <div class="status">
+          <span class="status-tag">Equity-informed standard</span>
+          <div class="status-items">
+            <div class="status-item">Accessible onboarding toolkits</div>
+            <div class="status-item">Accommodation & mental health guidance</div>
+            <div class="status-item">Inclusive job posting guidelines</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="who">
+          <div class="who-label">Learning institution</div>
+          <div class="who-name">Public-facing</div>
+        </div>
+        <div class="status">
+          <span class="status-tag">Shared infrastructure</span>
+          <div class="status-items">
+            <div class="status-item">Wellness liaison partnership</div>
+            <div class="status-item">Social safety net awareness</div>
+            <div class="status-item">Equity & inclusion pilot</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="who">
+          <div class="who-label">Student employees</div>
+          <div class="who-name">3,000+</div>
+        </div>
+        <div class="status">
+          <span class="status-tag">Meaningfully supported</span>
+          <div class="status-items">
+            <div class="status-item">HPSM students placed and supported</div>
+            <div class="status-item">First equity evaluation process</div>
+            <div class="status-item">$6M+ grants with equity oversight</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="divider"></div>
+    <div class="handle" id="handle">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M5 4L1 8L5 12M11 4L15 8L11 12" stroke="#475f6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <p class="hint">← drag to compare →</p>
+</div>
+
+<script>
+const slider  = document.getElementById('slider');
+const after   = document.getElementById('after-panel');
+const divider = document.getElementById('divider');
+const handle  = document.getElementById('handle');
+let dragging  = false;
+
+function setPos(x) {
+  const r = slider.getBoundingClientRect();
+  const p = Math.max(4, Math.min(96, ((x - r.left) / r.width) * 100));
+  after.style.clipPath = `inset(0 ${100 - p}% 0 0)`;
+  divider.style.left   = p + '%';
+  handle.style.left    = p + '%';
+}
+
+slider.addEventListener('mousedown',  e => { dragging = true; setPos(e.clientX); });
+window.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
+window.addEventListener('mouseup',    () => { dragging = false; });
+slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+window.addEventListener('touchend',   () => { dragging = false; });
+</script>
