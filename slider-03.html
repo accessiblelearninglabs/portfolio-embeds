@@ -1,0 +1,261 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Asap', sans-serif; background: transparent; }
+
+.outer { max-width: 680px; padding: 0.5rem 0; user-select: none; }
+
+.col-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8aa4ae;
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+
+.slider-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: ew-resize;
+}
+
+.before-panel {
+  width: 100%;
+  background: #303e44;
+}
+
+.after-panel {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  clip-path: inset(0 50% 0 0);
+  background: #f5f7f8;
+}
+
+.grid { width: 100%; border-collapse: collapse; }
+
+.grid tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+.after-panel .grid tr { border-bottom: 1px solid #d0dde2; }
+.grid tr:last-child { border-bottom: none; }
+
+.grid td { padding: 0; vertical-align: middle; }
+
+.who {
+  width: 28%;
+  padding: 1.6rem 1.1rem 1.6rem 1.4rem;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+.after-panel .who { border-right: 1px solid #d0dde2; }
+
+.who-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #7fa0aa;
+  margin-bottom: 6px;
+}
+.after-panel .who-label { color: #475f6a; }
+
+.who-count {
+  font-size: 20px;
+  font-weight: 600;
+  color: #c8dde4;
+  line-height: 1.15;
+}
+.after-panel .who-count { color: #303e44; }
+
+.status { width: 72%; padding: 1.6rem 1.4rem; }
+
+.status-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.before-panel .status-tag { background: #3d5159; color: #7fa0aa; }
+.after-panel  .status-tag { background: #d0dde2; color: #475f6a; }
+
+.status-items { font-size: 13px; line-height: 1; color: #4e6870; }
+.after-panel .status-items { color: #475f6a; }
+
+.status-items span {
+  display: block;
+  padding: 4px 0;
+}
+.status-items span::before { content: "— "; opacity: 0.55; }
+.after-panel .status-items span::before { opacity: 1; }
+
+.divider {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 2px; height: 100%;
+  background: white;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+}
+.handle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #475f6a;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  z-index: 11;
+}
+
+.hint { text-align: center; font-size: 11px; color: #8aa4ae; margin-top: 10px; }
+</style>
+
+<div class="outer">
+  <div class="col-labels">
+    <span>Before</span>
+    <span>After</span>
+  </div>
+
+  <div class="slider-wrap" id="slider">
+
+    <!-- BEFORE -->
+    <div class="before-panel">
+      <table class="grid">
+        <tr>
+          <td class="who">
+            <div class="who-label">Campus employers</div>
+            <div class="who-count">900+</div>
+          </td>
+          <td class="status">
+            <span class="status-tag">No shared standard</span>
+            <div class="status-items">
+              <span>Inconsistent onboarding</span>
+              <span>No equity guidance</span>
+              <span>Variable support for students</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="who">
+            <div class="who-label">Learning institution</div>
+            <div class="who-count">Public-facing</div>
+          </td>
+          <td class="status">
+            <span class="status-tag">No shared processes</span>
+            <div class="status-items">
+              <span>No wellness infrastructure</span>
+              <span>No equity framework</span>
+              <span>Complex needs unaddressed</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="who">
+            <div class="who-label">Student employees</div>
+            <div class="who-count">3,000+</div>
+          </td>
+          <td class="status">
+            <span class="status-tag">Unsupported</span>
+            <div class="status-items">
+              <span>HPSM students placed, not supported</span>
+              <span>No equity evaluation</span>
+              <span>$6M+ grants, no equity lens</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- AFTER -->
+    <div class="after-panel" id="after-panel">
+      <table class="grid">
+        <tr>
+          <td class="who">
+            <div class="who-label">Campus employers</div>
+            <div class="who-count">900+</div>
+          </td>
+          <td class="status">
+            <span class="status-tag">Equity-informed standard</span>
+            <div class="status-items">
+              <span>Accessible onboarding toolkits</span>
+              <span>Accommodation & mental health guidance</span>
+              <span>Inclusive job posting guidelines</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="who">
+            <div class="who-label">Learning institution</div>
+            <div class="who-count">Public-facing</div>
+          </td>
+          <td class="status">
+            <span class="status-tag">Shared infrastructure</span>
+            <div class="status-items">
+              <span>Wellness liaison partnership</span>
+              <span>Social safety net awareness</span>
+              <span>Equity & inclusion pilot</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="who">
+            <div class="who-label">Student employees</div>
+            <div class="who-count">3,000+</div>
+          </td>
+          <td class="status">
+            <span class="status-tag">Meaningfully supported</span>
+            <div class="status-items">
+              <span>HPSM students placed and supported</span>
+              <span>First equity evaluation process</span>
+              <span>$6M+ grants with equity oversight</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="divider" id="divider"></div>
+    <div class="handle" id="handle">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M5 4L1 8L5 12M11 4L15 8L11 12" stroke="#475f6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <p class="hint">← drag to compare →</p>
+</div>
+
+<script>
+const slider  = document.getElementById('slider');
+const after   = document.getElementById('after-panel');
+const divider = document.getElementById('divider');
+const handle  = document.getElementById('handle');
+let dragging  = false;
+
+function setPos(x) {
+  const r = slider.getBoundingClientRect();
+  const p = Math.max(4, Math.min(96, ((x - r.left) / r.width) * 100));
+  after.style.clipPath = `inset(0 ${100 - p}% 0 0)`;
+  divider.style.left   = p + '%';
+  handle.style.left    = p + '%';
+}
+
+slider.addEventListener('mousedown',  e => { dragging = true; setPos(e.clientX); });
+window.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
+window.addEventListener('mouseup',    () => { dragging = false; });
+slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+window.addEventListener('touchend',   () => { dragging = false; });
+</script>
