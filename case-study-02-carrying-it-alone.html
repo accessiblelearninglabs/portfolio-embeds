@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  CASE STUDY COMPARISON — 02 of three
+  Accessible Learning Labs · accessiblelearninglabs.com
+  Built on Knowledge Resource Template v1.0.0 tokens (data-branch="access").
+
+  Target: WCAG 2.2 Level AA.
+  · The comparison is real HTML text, not SVG text, so it resizes, reflows,
+    translates and survives user stylesheets.
+  · Both states stay in the accessibility tree at all times. The divider is a
+    visual convenience, never the only way to reach the content.
+  · Operable by pointer, by keyboard (arrows / Home / End), and by the three
+    view buttons — no dragging required (2.5.7).
+  · Below 30rem, and with JavaScript off, and in print, the two states stack
+    at full width and the divider is removed.
+
+  TO EMBED IN A PAGE: drop everything between the COMPONENT START and
+  COMPONENT END markers, plus the style and script blocks, and demote the
+  h1 to whatever level sits under the page's own heading.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+<html lang="en" data-branch="access">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Carrying it alone — Case study 02 — Accessible Learning Labs</title>
+<meta name="description" content="A before and after comparison: six people holding the same knowledge separately, then together. Built to WCAG 2.2 Level AA.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&display=swap">
+
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+/* ══════════════════════════════════════════════════════════════════════════
+   1. TOKENS — byte-identical to the Knowledge Resource Template. Do not edit.
+   ══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#ffffff;
+  --surface:#f5f6f7;
+  --sunk:#eaecee;
+
+  --ink:#303e44;        /* 11.06 on --paper */
+  --ink-mid:#4f6068;    /*  6.55 */
+  --ink-muted:#576a73;  /*  5.65 / 4.77 on --sunk */
+  --on-branch:#ffffff;
+
+  --rule:#d5dde1;       /* decorative hairlines ONLY */
+  --rule-strong:#7b8990;/* 3.61 — every control edge and every node edge */
+
+  --branch:#8a6a60;      /* non-text only */
+  --branch-text:#88685f; /* text-safe variant */
+  --wash:color-mix(in srgb, var(--branch) 8%, var(--paper));
+
+  --focus:#303e44;
+  --focus-halo:#ffffff;
+
+  --measure:66ch;
+  --shell:min(100% - 2.5rem, 46rem);
+  --r:8px;
+  --r-sm:5px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  --sans:"Asap",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+/* ── 2. BASE ─────────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;padding:2.5rem 0 3.5rem;
+  font-family:var(--sans);
+  font-size:1.0625rem;line-height:1.6;
+  color:var(--ink-mid);background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+}
+/* 1.4.12 Text Spacing — nothing that holds text carries a fixed height. */
+h1,h2,h3,p,ul,ol,figure{margin:0;}
+button,input,select,textarea,legend{font:inherit;}
+.shell{width:var(--shell);margin-inline:auto;}
+
+:focus{outline:none;}
+:focus-visible{
+  outline:3px solid var(--focus);outline-offset:2px;border-radius:2px;
+  box-shadow:0 0 0 6px var(--focus-halo);
+}
+
+h1{color:var(--ink);font-weight:700;letter-spacing:-.015em;line-height:1.2;
+  font-size:clamp(1.6rem,1.25rem + 1.5vw,2.1rem);text-wrap:balance;}
+.eyebrow{font-size:.8125rem;font-weight:600;letter-spacing:.13em;word-spacing:.14em;
+  text-transform:uppercase;color:var(--branch-text);margin-bottom:.5rem;}
+.num{display:inline-block;background:var(--branch-text);color:var(--on-branch);
+  border-radius:3px;padding:.05em .5em;margin-right:.5em;letter-spacing:.06em;}
+.lede{max-width:var(--measure);margin-top:.7rem;font-size:1.0625rem;}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   3. COMPARISON COMPONENT
+   ══════════════════════════════════════════════════════════════════════════ */
+.cmp{margin-top:1.6rem;}
+
+.cmp__stage{
+  position:relative;display:grid;
+  border:1px solid var(--rule-strong);border-radius:var(--r);
+  overflow:hidden;background:var(--paper);
+}
+.cmp__panel{grid-area:1/1;min-width:0;padding:clamp(.9rem,2.5vw,1.35rem);}
+.cmp__panel--before{background:var(--surface);}
+.cmp__panel--after{background:var(--paper);}
+/* The divider is drawn in CSS from one custom property, so the stacked
+   fallbacks below can switch it off without fighting an inline style. */
+.js .cmp__panel--after{clip-path:inset(0 0 0 var(--v,50%));}
+
+.cmp__divider{position:absolute;top:0;bottom:0;left:var(--v,50%);width:2px;
+  background:var(--ink);pointer-events:none;}
+.cmp__handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:44px;height:44px;border-radius:50%;background:var(--paper);
+  border:2px solid var(--ink);display:flex;align-items:center;
+  justify-content:center;gap:3px;}
+/* Chevrons are drawn, not typed — Asap has no arrow glyph (README §8). */
+.cmp__handle::before,.cmp__handle::after{content:"";width:.42rem;height:.42rem;
+  border-top:2px solid var(--ink);border-left:2px solid var(--ink);}
+.cmp__handle::before{transform:rotate(-45deg);}
+.cmp__handle::after{transform:rotate(135deg);}
+
+/* The real control. Transparent, full-bleed, 2px thumb so the value tracks
+   the pointer exactly. Click anywhere on the stage to move the divider. */
+.cmp__range{position:absolute;inset:0;width:100%;height:100%;margin:0;
+  opacity:0;cursor:col-resize;-webkit-appearance:none;appearance:none;
+  background:transparent;touch-action:pan-y;}
+.cmp__range::-webkit-slider-thumb{-webkit-appearance:none;width:2px;height:100%;
+  background:var(--ink);border:0;}
+.cmp__range::-moz-range-thumb{width:2px;height:100%;background:var(--ink);
+  border:0;border-radius:0;}
+.cmp__range::-moz-range-track{background:transparent;}
+/* Focus lands on the range but shows on the handle the user can see. */
+.cmp__stage:has(.cmp__range:focus-visible) .cmp__handle,
+.cmp__stage.is-focus .cmp__handle{
+  outline:3px solid var(--focus);outline-offset:2px;
+  box-shadow:0 0 0 6px var(--focus-halo);}
+.cmp__stage.is-eased .cmp__panel--after,
+.cmp__stage.is-eased .cmp__divider{transition:clip-path .3s var(--ease),left .3s var(--ease);}
+
+/* 2.5.7 Dragging Movements — the same job, without a drag. */
+.cmp__views{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.85rem;}
+.cmp__views button{
+  min-height:2.75rem;padding:.55rem 1.1rem;font-size:.9375rem;font-weight:600;
+  color:var(--ink);background:var(--paper);border:1px solid var(--rule-strong);
+  border-radius:var(--r-sm);cursor:pointer;}
+.cmp__views button:hover{background:var(--surface);}
+.cmp__views button[aria-pressed="true"]{background:var(--ink);color:var(--paper);
+  border-color:var(--ink);}
+.hint{margin-top:.7rem;font-size:.875rem;color:var(--ink-muted);max-width:var(--measure);}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   4. DIAGRAM — plain HTML boxes on a grid. No SVG text anywhere, so every
+   character honours the reader's font size, spacing and translation.
+
+   One layout rule governs everything here: WORDS THAT DIFFER BETWEEN THE TWO
+   STATES NEVER SIT IN THE MIDDLE OF THE PANEL. Each state's heading and
+   closing line are anchored to its own side of the divider, and the two
+   columns carry identical wording in both states. The divider therefore
+   passes through a gutter and through matching labels — never through the
+   middle of a word that changes.
+   ══════════════════════════════════════════════════════════════════════════ */
+.side{max-width:min(26rem,47%);}
+.cmp__panel--after .side{margin-left:auto;text-align:right;}
+.cmp__label{color:var(--ink);font-size:.75rem;font-weight:600;letter-spacing:.13em;
+  word-spacing:.14em;text-transform:uppercase;}
+.state{margin-top:.3rem;color:var(--ink);font-size:1.0625rem;font-weight:600;
+  line-height:1.3;}
+.state span{display:block;margin-top:.15rem;font-size:.875rem;font-weight:400;
+  color:var(--ink-muted);}
+
+.dg{display:grid;gap:.7rem;margin-top:1rem;
+  grid-template-columns:minmax(0,1fr) 2.5rem minmax(0,1fr);align-items:center;}
+.rows{margin:1rem 0 0;display:grid;gap:.5rem 2.5rem;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch;}
+.rows dt,.rows dd{margin:0;}
+.col{list-style:none;margin:0;padding:0;display:grid;gap:.5rem;}
+
+.node{border:1px solid var(--rule-strong);border-radius:var(--r-sm);
+  background:var(--paper);padding:.5rem .65rem;color:var(--ink);
+  font-size:.9375rem;line-height:1.3;
+  /* min-height, never height: raised line spacing still has room (1.4.12) */
+  min-height:3.4rem;display:flex;flex-direction:column;justify-content:center;}
+.node b{font-weight:600;display:block;}
+.node span{display:block;margin-top:.1rem;font-size:.8125rem;color:var(--ink-muted);}
+.node--off{border-style:dashed;}
+.node--on{background:var(--wash);border-color:var(--branch);}
+
+.hub{border:1px solid var(--rule-strong);border-radius:var(--r);
+  background:var(--paper);padding:.75rem .8rem;text-align:center;width:100%;}
+.hub b{display:block;color:var(--ink);font-weight:600;font-size:1rem;line-height:1.25;}
+.hub span{display:block;margin-top:.2rem;font-size:.8125rem;color:var(--ink-muted);}
+.hub--off{border-style:dashed;}
+.hub--on{background:var(--wash);border-color:var(--branch);}
+
+/* Connector. Solid with a drawn chevron when the link holds, dashed when it
+   does not — and every node also carries the state in words, so the meaning
+   never rests on the line style or the colour alone (1.4.1). */
+.link{align-self:center;justify-self:stretch;height:0;position:relative;
+  border-top:1.5px solid var(--rule-strong);}
+.link--off{border-top-style:dashed;}
+.link--on{border-top-color:var(--branch);}
+.link--on::after{content:"";position:absolute;right:0;top:0;width:.4rem;height:.4rem;
+  border-top:1.5px solid var(--branch);border-right:1.5px solid var(--branch);
+  transform:translate(0,-50%) rotate(45deg);}
+.link--v{height:1.7rem;width:0;justify-self:center;align-self:center;
+  border-top:0;border-left:1.5px solid var(--rule-strong);}
+.link--v.link--off{border-left-style:dashed;}
+.link--v.link--on{border-left-color:var(--branch);}
+.link--v.link--on::after{right:auto;left:0;top:auto;bottom:0;
+  border-top:0;border-right:1.5px solid var(--branch);
+  border-bottom:1.5px solid var(--branch);transform:translate(-50%,0) rotate(45deg);}
+
+.note{margin-top:.9rem;padding-top:.7rem;border-top:1px solid var(--rule);
+  font-size:.875rem;color:var(--ink-muted);}
+
+.vh{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap;border:0;}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   5. REFLOW — 1.4.10. Columns stack first, then the comparison itself.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width:40rem){
+  /* Half of a two-column diagram is not legible, so below this width the
+     divider is removed and both states show in full, one after the other. */
+  .cmp__divider,.cmp__range,.cmp__views,.hint{display:none;}
+  .cmp__stage{display:block;}
+  .js .cmp__panel--after{clip-path:none;}
+  .cmp__panel--after{border-top:1px solid var(--rule-strong);}
+  .side,.cmp__panel--after .side{max-width:none;margin-left:0;text-align:left;}
+  .dg{grid-template-columns:minmax(0,1fr);}
+  .link{height:1.7rem;width:0;justify-self:center;
+    border-top:0;border-left:1.5px solid var(--rule-strong);}
+  .link--off{border-left-style:dashed;}
+  .link--on{border-left-color:var(--branch);}
+  .link--on::after{right:auto;left:0;top:auto;bottom:0;
+    border-top:0;border-bottom:1.5px solid var(--branch);
+    transform:translate(-50%,0) rotate(45deg);}
+  .rows{grid-template-columns:minmax(0,1fr);gap:.15rem;}
+  .rows dd{margin-bottom:.5rem;}
+  .node{min-height:0;}
+}
+/* Below 30rem a half-width diagram is not legible, so the divider goes and
+   both states show in full. Same rule for no-JS and for print. */
+html:not(.js) .cmp__divider,
+html:not(.js) .cmp__range,
+html:not(.js) .cmp__views,
+html:not(.js) .hint{display:none;}
+html:not(.js) .cmp__stage{display:block;}
+html:not(.js) .cmp__panel--after{border-top:1px solid var(--rule-strong);}
+html:not(.js) .side,
+html:not(.js) .cmp__panel--after .side{max-width:none;margin-left:0;text-align:left;}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   6. USER PREFERENCES
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+@media (prefers-contrast:more){
+  :root{--rule:#5a6a72;--rule-strong:#3d4a51;--ink-mid:#2b383e;--ink-muted:#33424a;}
+}
+@media (forced-colors:active){
+  .cmp__stage,.node,.hub{border:1px solid CanvasText;}
+  .num{forced-color-adjust:none;background:CanvasText;color:Canvas;}
+  .cmp__divider,.cmp__handle{forced-color-adjust:none;background:CanvasText;}
+  .cmp__views button[aria-pressed="true"]{background:Highlight;color:HighlightText;}
+  :focus-visible{outline-color:Highlight;}
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#161d21;--surface:#1e262a;--sunk:#263035;
+    --ink:#e8edef;--ink-mid:#c3ced3;--ink-muted:#a3b2b9;
+    --rule:#33414a;--rule-strong:#7e8f98;
+    --focus:#e8edef;--focus-halo:#161d21;
+    --on-branch:#161d21;
+    --branch-text:color-mix(in srgb, #e8edef 58%, var(--branch));
+    --wash:color-mix(in srgb, var(--branch) 22%, var(--paper));
+  }
+}
+@media print{
+  .cmp__divider,.cmp__range,.cmp__views,.hint{display:none !important;}
+  .cmp__stage{display:block;border-color:#999;}
+  .js .cmp__panel--after{clip-path:none;}
+  .cmp__panel--after{border-top:1px solid #999;}
+  .side,.cmp__panel--after .side{max-width:none;margin-left:0;text-align:left;}
+  body{font-size:11pt;color:#000;background:#fff;padding:0;}
+  .cmp__panel{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+
+<!-- COMPONENT START -->
+<article aria-labelledby="cs-title-02">
+  <p class="eyebrow"><span class="num">02</span>Case study</p>
+  <h1 id="cs-title-02">Carrying it alone</h1>
+  <p class="lede">Six people hold the same knowledge and the same grief. What changes is whether there is anywhere to put it down.</p>
+
+  <div class="cmp" data-cmp>
+    <label class="vh" for="cmp-range-02">Divider between the before and after views</label>
+    <div class="cmp__stage" id="cmp-stage-02">
+
+      <section class="cmp__panel cmp__panel--before" aria-labelledby="cmp-before-02">
+        <div class="side">
+          <h2 class="cmp__label" id="cmp-before-02">Before</h2>
+          <p class="state">No shared space<span>No meal, no peers, no grief support.</span></p>
+        </div>
+      <div class="dg">
+        <ul class="col" aria-label="One household">
+        <li class="node node--off"><b>Family member</b></li>
+        <li class="node node--off"><b>Informal carer</b></li>
+        <li class="node node--off"><b>Community member</b></li>
+        </ul>
+        <span class="link link--off" aria-hidden="true"></span>
+        <ul class="col" aria-label="Another household">
+        <li class="node node--off"><b>Family member</b><span>carrying it alone</span></li>
+        <li class="node node--off"><b>Informal carer</b><span>carrying it alone</span></li>
+        <li class="node node--off"><b>Community member</b><span>carrying it alone</span></li>
+        </ul>
+      </div>
+        <p class="note side">Knowledge held alone · grief carried alone · decisions made under urgency.</p>
+      </section>
+
+      <section class="cmp__panel cmp__panel--after" aria-labelledby="cmp-after-02">
+        <div class="side">
+          <h2 class="cmp__label" id="cmp-after-02">After</h2>
+          <p class="state">A shared space<span>A meal, peers, grief support.</span></p>
+        </div>
+      <div class="dg">
+        <ul class="col" aria-label="One household">
+        <li class="node node--on"><b>Family member</b></li>
+        <li class="node node--on"><b>Informal carer</b></li>
+        <li class="node node--on"><b>Community member</b></li>
+        </ul>
+        <span class="link link--on" aria-hidden="true"></span>
+        <ul class="col" aria-label="Another household">
+        <li class="node node--on"><b>Family member</b><span>carrying it together</span></li>
+        <li class="node node--on"><b>Informal carer</b><span>carrying it together</span></li>
+        <li class="node node--on"><b>Community member</b><span>carrying it together</span></li>
+        </ul>
+      </div>
+        <p class="note side">Knowledge shared · grief held together · decisions made with dignity.</p>
+      </section>
+
+      <div class="cmp__divider" aria-hidden="true"><span class="cmp__handle"></span></div>
+      <input class="cmp__range" id="cmp-range-02" type="range" min="0" max="100" step="1" value="50">
+    </div>
+
+    <div class="cmp__views" role="group" aria-label="Choose a view">
+      <button type="button" data-value="100" aria-pressed="false">Before only</button>
+      <button type="button" data-value="50" aria-pressed="true">Compare</button>
+      <button type="button" data-value="0" aria-pressed="false">After only</button>
+    </div>
+    <p class="hint">Drag the divider, click anywhere on the comparison, or choose a
+      view. With the divider focused, the left and right arrow keys move it, and Home
+      and End jump to either end.</p>
+  </div>
+</article>
+<!-- COMPONENT END -->
+
+</main>
+
+<script>
+/* One control, three ways in: pointer, keyboard, buttons. Nothing here is
+   required to reach the content — without it both states simply stack. */
+document.querySelectorAll('[data-cmp]').forEach(function (root) {
+  var stage = root.querySelector('.cmp__stage'),
+      range = root.querySelector('.cmp__range'),
+      views = Array.prototype.slice.call(root.querySelectorAll('[data-value]'));
+
+  function paint(v) {
+    stage.style.setProperty('--v', v + '%');
+    range.setAttribute('aria-valuetext', v + '% before, ' + (100 - v) + '% after');
+    views.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(Number(b.dataset.value) === v));
+    });
+  }
+
+  range.addEventListener('input', function () {
+    stage.classList.remove('is-eased');
+    paint(Number(range.value));
+  });
+  range.addEventListener('focus', function () { stage.classList.add('is-focus'); });
+  range.addEventListener('blur', function () { stage.classList.remove('is-focus'); });
+
+  views.forEach(function (b) {
+    b.addEventListener('click', function () {
+      stage.classList.add('is-eased');
+      range.value = b.dataset.value;
+      paint(Number(range.value));
+    });
+  });
+
+  paint(Number(range.value));
+});
+</script>
+</body>
+</html>
